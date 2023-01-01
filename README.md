@@ -1,6 +1,6 @@
-# mytsel_clone
+# MyTsel Clone App
 
-A new Flutter project.
+Flutter Application with BLoC clean architecture to buy an Internet Packages, SMS Packages, Voice Packages and more. This is MyTsel application clone from Indonesia.
 
 ## Getting Started
 
