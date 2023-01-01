@@ -15,7 +15,8 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ProductDetailsPage.routeName);
+        Navigator.of(context).pushNamed(ProductDetailsPage.routeName,
+            arguments: ProductDetailsPage(product: product));
       },
       child: Card(
         shape: RoundedRectangleBorder(

@@ -5,11 +5,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../../../domain/entities/keyword.dart';
 import '../../../domain/entities/product.dart';
 import '../../bloc/search/search_bloc.dart';
+import '../../widgets/product_details/widgets.dart';
 import '../../widgets/widgets.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  const ProductDetailsPage({super.key});
+  const ProductDetailsPage({super.key, required this.product});
   static const String routeName = "/product-details";
+  final Product product;
 
   @override
   State<ProductDetailsPage> createState() => _ProductDetailsPageState();
@@ -18,10 +20,13 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   TextEditingController searchBar = TextEditingController();
   List<Product> packages = products;
-  List<Keyword> keywords = allKeywords;
+  List<Keyword> keywords = [];
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    ProductDetailsPage args =
+        ModalRoute.of(context)!.settings.arguments as ProductDetailsPage;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -43,9 +48,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               keywords.sort(((a, b) => b.id.compareTo(a.id)));
             });
           },
-          // onChanged: (value) {
-          //   searchPackages(value);
-          // },
           onSubmitted: (value) {
             setState(() {
               if (value != "") {
@@ -53,12 +55,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 keywords.add(Keyword(id: id, keyword: value));
                 keywords.sort(((a, b) => b.id.compareTo(a.id)));
                 isLoading = !isLoading;
-                // Navigator.pushNamed(context, ResultPage.routeName,
-                //     arguments: ResultPage(keyword: value));
               }
             });
           },
-          autofocus: true,
+          // autofocus: true,
           autocorrect: false,
           cursorColor: Colors.red,
           controller: searchBar,
@@ -116,122 +116,102 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           children: [
             Expanded(
               child: (keywords.isEmpty)
-                  ? Container(
-                      color: Colors.amber,
-                    )
-                  : (isLoading)
-                      ? BlocBuilder<SearchBloc, SearchState>(
-                          bloc: SearchBloc(),
-                          builder: (context, state) {
-                            isLoading = !isLoading;
-                            return ListView.builder(
-                              itemCount: products.length,
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ProductWidget(
-                                  product: products[index],
-                                );
-                              },
-                            );
-                          },
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(30, 16, 20, 12),
-                              child: const Text(
-                                "Terakhir dicari",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                  ? ProductDetailsWidget(product: args.product)
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(30, 16, 20, 12),
+                          child: const Text(
+                            "Terakhir dicari",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: ListView.builder(
+                            itemCount:
+                                (keywords.length < 5) ? keywords.length : 5,
+                            itemBuilder: ((context, index) {
+                              keywords.sort(((a, b) => b.id.compareTo(a.id)));
+                              final keyword = keywords[index];
+                              return ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.only(
+                                  left: 30,
+                                  right: 20,
+                                ),
+                                horizontalTitleGap: 8,
+                                minLeadingWidth: 0,
+                                leading: const Icon(
+                                  Icons.history,
+                                  color: Color(0xFFCED6E0),
+                                ),
+                                title: Text(
+                                  keyword.keyword,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF747D8C),
+                                  ),
+                                ),
+                                trailing: const Icon(
+                                  Icons.close,
+                                  color: Color(0xFFCED6E0),
+                                ),
+                              );
+                            }),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(30, 16, 20, 12),
+                                child: const Text(
+                                  "Pencarian populer",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: ListView.builder(
-                                itemCount:
-                                    (keywords.length < 5) ? keywords.length : 5,
-                                itemBuilder: ((context, index) {
-                                  keywords
-                                      .sort(((a, b) => b.id.compareTo(a.id)));
-                                  final keyword = keywords[index];
-                                  return ListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                      left: 30,
-                                      right: 20,
-                                    ),
-                                    horizontalTitleGap: 8,
-                                    minLeadingWidth: 0,
-                                    leading: const Icon(
-                                      Icons.history,
-                                      color: Color(0xFFCED6E0),
-                                    ),
-                                    title: Text(
-                                      keyword.keyword,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF747D8C),
-                                      ),
-                                    ),
-                                    trailing: const Icon(
-                                      Icons.close,
-                                      color: Color(0xFFCED6E0),
-                                    ),
-                                  );
-                                }),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 16, 20, 12),
-                                    child: const Text(
-                                      "Pencarian populer",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        30, 4, 20, 12),
-                                    // PENCARIAN POPULER
-                                    child: Wrap(
-                                      children: List.generate(
-                                        7,
-                                        (index) => Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 8),
-                                          child: ActionChip(
-                                            onPressed: () {},
-                                            label: const Text(
-                                              "ruangguru",
-                                              style: TextStyle(
-                                                color: Color(0xFFEC2028),
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            side: const BorderSide(
-                                                color: Color(0xFFEC2028)),
+                              Container(
+                                margin:
+                                    const EdgeInsets.fromLTRB(30, 4, 20, 12),
+                                // PENCARIAN POPULER
+                                child: Wrap(
+                                  children: List.generate(
+                                    7,
+                                    (index) => Container(
+                                      margin: const EdgeInsets.only(right: 8),
+                                      child: ActionChip(
+                                        onPressed: () {},
+                                        label: const Text(
+                                          "ruangguru",
+                                          style: TextStyle(
+                                            color: Color(0xFFEC2028),
+                                            fontSize: 12,
                                           ),
                                         ),
+                                        backgroundColor: Colors.white,
+                                        side: const BorderSide(
+                                            color: Color(0xFFEC2028)),
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                      ],
+                    ),
             ),
           ],
         ),

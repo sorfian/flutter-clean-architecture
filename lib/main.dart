@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mytsel_clone/features/domain/entities/product.dart';
 
 import 'features/presentation/pages/home/pages.dart';
 import 'features/presentation/pages/category_details/pages.dart';
@@ -23,9 +24,12 @@ class MyApp extends StatelessWidget {
         CategoryDetailsPage.routeName: (context) => const CategoryDetailsPage(),
         SearchPage.routeName: (context) => const SearchPage(),
         ResultPage.routeName: (context) => const ResultPage(),
-        ProductDetailsPage.routeName: (context) => const ProductDetailsPage(),
+        ProductDetailsPage.routeName: (context) => ProductDetailsPage(
+              product: Product(
+                  package: 30, expired: 30, packageName: "OMG!", price: 45000),
+            ),
       },
-      initialRoute: "/login",
+      initialRoute: LoginPage.routeName,
       debugShowCheckedModeBanner: false,
       title: 'MyTsel App',
       theme: ThemeData(
