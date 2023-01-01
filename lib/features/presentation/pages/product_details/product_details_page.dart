@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../domain/entities/keyword.dart';
 import '../../../domain/entities/product.dart';
-import '../../bloc/search/search_bloc.dart';
 import '../../widgets/product_details/widgets.dart';
-import '../../widgets/widgets.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({super.key, required this.product});
