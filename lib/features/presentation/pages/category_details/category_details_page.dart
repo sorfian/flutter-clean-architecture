@@ -5,6 +5,7 @@ import '../../widgets/home/widgets.dart';
 
 class CategoryDetailsPage extends StatefulWidget {
   const CategoryDetailsPage({super.key});
+  static const String routeName = "/category-details";
 
   @override
   State<CategoryDetailsPage> createState() => _CategoryDetailsPageState();

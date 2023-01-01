@@ -13,6 +13,8 @@ class SearchPage extends StatefulWidget {
     super.key,
   });
 
+  static const String routeName = "/search";
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
