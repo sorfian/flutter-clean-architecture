@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mytsel_clone/features/domain/entities/product.dart';
+import 'package:mytsel_clone/app/domain/entities/product.dart';
 
-import 'features/presentation/pages/home/pages.dart';
-import 'features/presentation/pages/category_details/pages.dart';
-import 'features/presentation/pages/login/pages.dart';
-import 'features/presentation/pages/product_details/pages.dart';
-import 'features/presentation/pages/search/pages.dart';
-import 'features/presentation/widgets/search/widgets.dart';
+import 'app/presentation/pages/home/pages.dart';
+import 'app/presentation/pages/category_details/pages.dart';
+import 'app/presentation/pages/login/pages.dart';
+import 'app/presentation/pages/product_details/pages.dart';
+import 'app/presentation/pages/search/pages.dart';
+import 'app/presentation/widgets/search/widgets.dart';
 
 void main() {
   runApp(const MyApp());
